@@ -15,14 +15,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20 # 👈 เปลี่ยนตรงนี้จาก 18 เป็น 20 ครับ
+          
       - name: Install HonKit
         run: npm install -g honkit
+        
       - name: Build GitBook
         run: honkit build
+        
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
