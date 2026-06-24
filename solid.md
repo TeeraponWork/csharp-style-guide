@@ -1,3 +1,4 @@
+Markdown
 # 🧱 SOLID Principles (หลักการออกแบบซอฟต์แวร์)
 
 SOLID คือหลักการออกแบบซอฟต์แวร์ 5 ข้อ ที่ช่วยให้โค้ดอ่านง่าย ยืดหยุ่น แก้ไขง่าย และขยายระบบได้ดีในระยะยาว การยึดถือหลักการนี้จะช่วยลดความซับซ้อนเมื่อโปรเจ็กต์มีขนาดใหญ่ขึ้น
@@ -23,6 +24,7 @@ SOLID คือหลักการออกแบบซอฟต์แวร�
 
 **❌ ไม่แนะนำ:** คลาสทำงานหลายอย่างพร้อมกัน เช่น จัดการเอกสาร PDF และส่งอีเมลแจ้งเตือน
 
+```csharp
 public class DocumentProcessor
 {
     public void ProtectPdf(string filePath, string password)
@@ -35,9 +37,9 @@ public class DocumentProcessor
         // ลอจิกการส่งอีเมล
     }
 }
+✅ แนะนำ: แยก class ตามหน้าที่เดียว
 
-✅ แนะนำ: แยก class ตามหน้าที่เดียว  
-
+C#
 public class PorschePdfProtector
 {
     public void ApplySecurity(string filePath, string password)
@@ -53,9 +55,12 @@ public class EmailNotifier
         // ลอจิกการส่งอีเมล
     }
 }
+2️⃣ Open/Closed Principle (OCP)
+"เปิดรับการขยายความสามารถ แต่ปิดการแก้ไขโค้ดเดิม" เราควรเพิ่ม feature ได้โดยไม่แก้โค้ดเดิมที่เคยเขียนและทดสอบผ่านไปแล้ว
 
-2️⃣ Open/Closed Principle (OCP)"เปิดรับการขยายความสามารถ แต่ปิดการแก้ไขโค้ดเดิม"  เราควรเพิ่ม feature ได้โดยไม่แก้โค้ดเดิมที่เคยเขียนและทดสอบผ่านไปแล้ว  ❌ ไม่แนะนำ: ต้องเข้าไปแก้โค้ดเดิม (เพิ่ม else if) ทุกครั้งที่มีการประมวลผลเอกสารประเภทใหม่
+❌ ไม่แนะนำ: ต้องเข้าไปแก้โค้ดเดิม (เพิ่ม else if) ทุกครั้งที่มีการประมวลผลเอกสารประเภทใหม่
 
+C#
 public class DocumentAutomator
 {
     public void Process(string docType)
@@ -64,8 +69,9 @@ public class DocumentAutomator
         else if (docType == "Word") { /* ลอจิกจัดการ Word */ }
     }
 }
-
 ✅ แนะนำ: ใช้ Interface เพื่อเปิดรับการขยายการทำงาน
+
+C#
 public interface IDocumentProcessor
 {
     void Process();
@@ -81,19 +87,12 @@ public class DocumentAutomator
         processor.Process();
     }
 }
-3️⃣ Liskov Substitution Principle (LSP)"ลูกต้องแทนพ่อได้"  หากมีการสืบทอด (Inheritance) คลาสลูกต้องไม่ยกเลิกหรือเปลี่ยนแปลงพฤติกรรมหลักที่คลาสแม่ได้กำหนดไว้❌ ไม่แนะนำ: คลาสลูก Throw Exception ใน Method ที่สืบทอดมา
-public class Document
-{
-    public virtual void Edit() { /* ลอจิกการแก้ไข */ }
-}
+3️⃣ Liskov Substitution Principle (LSP)
+"ลูกต้องแทนพ่อได้" หากมีการสืบทอด (Inheritance) คลาสลูกต้องไม่ยกเลิกหรือเปลี่ยนแปลงพฤติกรรมหลักที่คลาสแม่ได้กำหนดไว้
 
-public class ReadOnlyDocument : Document
-{
-    public override void Edit()
-    {
-        throw new NotSupportedException("เอกสารนี้อ่านได้อย่างเดียว ไม่สามารถแก้ไขได้");
-    }
-}
+❌ ไม่แนะนำ: คลาสลูก Throw Exception ใน Method ที่สืบทอดมา
+
+C#
 public class Document
 {
     public virtual void Edit() { /* ลอจิกการแก้ไข */ }
@@ -108,34 +107,38 @@ public class ReadOnlyDocument : Document
 }
 ✅ แนะนำ: แยก Interface ตามความสามารถที่ทำได้จริง
 
+C#
 public interface IReadable { void Read(); }
 public interface IEditable { void Edit(); }
 
 public class StandardDocument : IReadable, IEditable { /* ... */ }
 public class ReadOnlyDocument : IReadable { /* ... */ }
+4️⃣ Interface Segregation Principle (ISP)
+"interface ต้องเล็ก ใช้เท่าที่จำเป็น" การมี Interface ขนาดใหญ่ (Fat Interface) ทำให้คลาสที่นำไปใช้ต้องเขียนโค้ดเปล่าๆ หรือทิ้ง Exception ไว้ใน Method ที่ไม่ต้องการ
 
-4️⃣ Interface Segregation Principle (ISP)"interface ต้องเล็ก ใช้เท่าที่จำเป็น"  การมี Interface ขนาดใหญ่ (Fat Interface) ทำให้คลาสที่นำไปใช้ต้องเขียนโค้ดเปล่าๆ หรือทิ้ง Exception ไว้ใน Method ที่ไม่ต้องการ❌ ไม่แนะนำ: Interface ที่รวมทุกอย่างไว้ด้วยกัน
+❌ ไม่แนะนำ: Interface ที่รวมทุกอย่างไว้ด้วยกัน
 
+C#
 public interface IAutomatedDocument
 {
     void Read();
     void ApplyWatermark();
     void Encrypt();
 }
-
 ✅ แนะนำ: แตก Interface ให้เล็กและเฉพาะเจาะจง
 
+C#
 public interface IFileReader { void Read(); }
 public interface IWatermarker { void ApplyWatermark(); }
 public interface IDocumentSecurity { void Encrypt(); }
-
 5️⃣ Dependency Inversion Principle (DIP)
-"พึ่ง abstraction ไม่พึ่ง implementation"[cite: 8]
+"พึ่ง abstraction ไม่พึ่ง implementation"
 
 หลีกเลี่ยงการสร้าง Object ข้ามเลเยอร์ด้วยตนเอง เพื่อลดการผูกมัด (Tight Coupling)
 
 ❌ ไม่แนะนำ: new อ็อบเจ็กต์ของคลาสอื่นโดยตรง
 
+C#
 public class LexusDocumentPipeline
 {
     private readonly PorschePdfProtector _pdfProtector;
@@ -146,8 +149,9 @@ public class LexusDocumentPipeline
         _pdfProtector = new PorschePdfProtector(); 
     }
 }
-✅ แนะนำ: ใช้ interface และฉีด Dependency ผ่าน Constructor (Dependency Injection)[cite: 8]
+✅ แนะนำ: ใช้ interface และฉีด Dependency ผ่าน Constructor (Dependency Injection)
 
+C#
 public interface IPdfSecurityProvider
 {
     void ApplySecurity(string filePath);
@@ -169,12 +173,12 @@ public class LexusDocumentPipeline
     }
 }
 💡 สรุป
-S → แยกหน้าที่[cite: 8]
+S → แยกหน้าที่
 
-O → เพิ่มได้ ไม่แก้ของเดิม[cite: 8]
+O → เพิ่มได้ ไม่แก้ของเดิม
 
-L → ใช้แทนกันได้[cite: 8]
+L → ใช้แทนกันได้
 
-I → เล็กและเฉพาะ[cite: 8]
+I → เล็กและเฉพาะ
 
-D → ใช้ interface[cite: 8]
+D → ใช้ interface
