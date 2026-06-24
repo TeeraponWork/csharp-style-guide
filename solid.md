@@ -24,14 +24,14 @@ SOLID คือหลักการออกแบบซอฟต์แวร�
 
 **❌ ไม่แนะนำ:** คลาสทำงานหลายอย่างพร้อมกัน เช่น จัดการเอกสาร PDF และส่งอีเมลแจ้งเตือน
 
-```csharp
+##
 public class DocumentProcessor
 {
     public void ProtectPdf(string filePath, string password)
     {
         // ลอจิกการเพิ่มความปลอดภัยให้ PDF
     }
-
+    ##
     public void SendEmailNotification(string email)
     {
         // ลอจิกการส่งอีเมล
@@ -39,7 +39,7 @@ public class DocumentProcessor
 }
 ✅ แนะนำ: แยก class ตามหน้าที่เดียว
 
-C#
+##
 public class PorschePdfProtector
 {
     public void ApplySecurity(string filePath, string password)
@@ -47,7 +47,7 @@ public class PorschePdfProtector
         // ลอจิกการเพิ่มความปลอดภัยให้ PDF โดยเฉพาะ
     }
 }
-
+##
 public class EmailNotifier
 {
     public void Send(string email, string message)
@@ -60,7 +60,7 @@ public class EmailNotifier
 
 ❌ ไม่แนะนำ: ต้องเข้าไปแก้โค้ดเดิม (เพิ่ม else if) ทุกครั้งที่มีการประมวลผลเอกสารประเภทใหม่
 
-C#
+##
 public class DocumentAutomator
 {
     public void Process(string docType)
@@ -71,7 +71,7 @@ public class DocumentAutomator
 }
 ✅ แนะนำ: ใช้ Interface เพื่อเปิดรับการขยายการทำงาน
 
-C#
+##
 public interface IDocumentProcessor
 {
     void Process();
@@ -92,7 +92,7 @@ public class DocumentAutomator
 
 ❌ ไม่แนะนำ: คลาสลูก Throw Exception ใน Method ที่สืบทอดมา
 
-C#
+##
 public class Document
 {
     public virtual void Edit() { /* ลอจิกการแก้ไข */ }
@@ -107,7 +107,7 @@ public class ReadOnlyDocument : Document
 }
 ✅ แนะนำ: แยก Interface ตามความสามารถที่ทำได้จริง
 
-C#
+##
 public interface IReadable { void Read(); }
 public interface IEditable { void Edit(); }
 
@@ -118,7 +118,7 @@ public class ReadOnlyDocument : IReadable { /* ... */ }
 
 ❌ ไม่แนะนำ: Interface ที่รวมทุกอย่างไว้ด้วยกัน
 
-C#
+##
 public interface IAutomatedDocument
 {
     void Read();
@@ -127,7 +127,7 @@ public interface IAutomatedDocument
 }
 ✅ แนะนำ: แตก Interface ให้เล็กและเฉพาะเจาะจง
 
-C#
+##
 public interface IFileReader { void Read(); }
 public interface IWatermarker { void ApplyWatermark(); }
 public interface IDocumentSecurity { void Encrypt(); }
@@ -138,11 +138,11 @@ public interface IDocumentSecurity { void Encrypt(); }
 
 ❌ ไม่แนะนำ: new อ็อบเจ็กต์ของคลาสอื่นโดยตรง
 
-C#
+##
 public class LexusDocumentPipeline
 {
     private readonly PorschePdfProtector _pdfProtector;
-
+    ##
     public LexusDocumentPipeline()
     {
         // ผิดหลัก DIP เพราะผูกติดกับ Implementation โดยตรง
@@ -151,7 +151,7 @@ public class LexusDocumentPipeline
 }
 ✅ แนะนำ: ใช้ interface และฉีด Dependency ผ่าน Constructor (Dependency Injection)
 
-C#
+##
 public interface IPdfSecurityProvider
 {
     void ApplySecurity(string filePath);
@@ -160,13 +160,13 @@ public interface IPdfSecurityProvider
 public class LexusDocumentPipeline
 {
     private readonly IPdfSecurityProvider _securityProvider;
-
+    ##
     // ระบบ DI จะจัดการส่ง instance ที่ถูกต้องเข้ามาให้เอง
     public LexusDocumentPipeline(IPdfSecurityProvider securityProvider)
     {
         _securityProvider = securityProvider;
     }
-
+    ##
     public void RunPipeline(string filePath)
     {
         _securityProvider.ApplySecurity(filePath);
