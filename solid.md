@@ -31,7 +31,6 @@ public class DocumentProcessor
     {
         // ลอจิกการเพิ่มความปลอดภัยให้ PDF
     }
-    ##
     public void SendEmailNotification(string email)
     {
         // ลอจิกการส่งอีเมล
