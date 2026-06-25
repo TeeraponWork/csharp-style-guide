@@ -55,6 +55,7 @@ src/
     ├── Controllers/
     ├── Middlewares/
     └── Program.cs
+    
 🔑 กฎการพึ่งพา (The Dependency Rule)
 เพื่อให้ระบบยืดหยุ่น เราจะใช้ Dependency Injection (DI) ในการเชื่อมต่อแต่ละเลเยอร์:
 
@@ -78,3 +79,4 @@ Application ใช้ Domain (Entity) ในการคำนวณตาม Lo
 Application เรียกใช้ Infrastructure (Repository) ผ่าน Interface เพื่อบันทึกข้อมูล
 
 Response ถูกส่งกลับผ่าน Presentation
+```
