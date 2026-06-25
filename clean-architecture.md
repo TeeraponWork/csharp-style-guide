@@ -55,6 +55,7 @@ src/
     ├── Controllers/
     ├── Middlewares/
     └── Program.cs
+```
     
 🔑 กฎการพึ่งพา (The Dependency Rule)
 เพื่อให้ระบบยืดหยุ่น เราจะใช้ Dependency Injection (DI) ในการเชื่อมต่อแต่ละเลเยอร์:
@@ -69,6 +70,7 @@ Presentation รู้จัก Application เพื่อส่งคำสั
 
 ข้อดี: หากคุณต้องการเปลี่ยนจากฐานข้อมูล SQL Server ไปเป็น MongoDB คุณจะแก้โค้ดแค่ในเลเยอร์ Infrastructure เท่านั้น โดยที่เลเยอร์ Domain และ Application ไม่ต้องแก้ไขอะไรเลย
 
+
 💡 สรุปการทำงาน (Workflow)
 Request เข้ามาที่ Presentation (Controller)
 
@@ -79,4 +81,3 @@ Application ใช้ Domain (Entity) ในการคำนวณตาม Lo
 Application เรียกใช้ Infrastructure (Repository) ผ่าน Interface เพื่อบันทึกข้อมูล
 
 Response ถูกส่งกลับผ่าน Presentation
-```
